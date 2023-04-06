@@ -3,17 +3,45 @@ const { JsonDB, Config } =require('node-json-db');
 const CryptoJS = require("crypto-js");
 const {v4: uuidv4} = require("uuid");
 
-const user = new JsonDB(new Config("./db/user.db", true, false, '/'));
-const profile = new JsonDB(new Config("./db/profile.db", true, false, '/'));
+const user = new JsonDB(new Config("./db/user.json", true, false, '/'));
 
-const profileDB = {
-    update: async (data) => {
+const db = {
+    addList: async (data) => {
 
-    }
+        await user.push(`/${uuidv4()}`,data).then( (data) => {
+            return  {status: "success"};
+        }).catch( (err) => {
+            return  err;
+        })
+
+    },
+    getList: async () => {
+        return await user.getData("/").then(async (data) => {
+
+            return await data;
+
+        }).catch((err) => {
+            return err;
+        })
+    },
+    getOne: async (id) => {
+        return await user.getData(`/${id}`).then(async (data) => {
+            return await data
+        }).catch((err) => {
+            return err;
+        })
+    },
+    deleteOne: async (id) => {
+        return await user.delete(`/${id}`).then(async (data) => {
+            return await data;
+        }).catch((err) => {
+            return err;
+        })
+    },
 }
 
 
-const db = {
+/*const db = {
     addList: async (data) => {
 
         let secretValue = CryptoJS.AES.encrypt(data, process.env.MY_SECRET_KEY).toString()
@@ -54,7 +82,7 @@ const db = {
             return err;
         })
     },
-}
+}*/
 module.exports = {
     db,user
 };
