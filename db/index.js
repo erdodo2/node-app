@@ -3,7 +3,7 @@ const { JsonDB, Config } =require('node-json-db');
 const CryptoJS = require("crypto-js");
 const {v4: uuidv4} = require("uuid");
 
-const user = new JsonDB(new Config("./db/user.json", true, false, '/'));
+const user = new JsonDB(new Config(__dirname+"/db/user.json", true, false, '/'));
 
 const db = {
     addList: async (data) => {
