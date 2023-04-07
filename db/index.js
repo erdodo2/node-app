@@ -1,46 +1,4 @@
-const { JsonDB, Config } =require('node-json-db');
-
-const CryptoJS = require("crypto-js");
-const {v4: uuidv4} = require("uuid");
-
-console.log(__dirname)
-const user = new JsonDB(new Config(__dirname+"/user.json", true, false, '/'));
-
-const db = {
-    addList: async (data) => {
-
-        await user.push(`/${uuidv4()}`,data).then( (data) => {
-            return  {status: "success"};
-        }).catch( (err) => {
-            return  err;
-        })
-
-    },
-    getList: async () => {
-        return await user.getData("/").then(async (data) => {
-
-            return await data;
-
-        }).catch((err) => {
-            return err;
-        })
-    },
-    getOne: async (id) => {
-        return await user.getData(`/${id}`).then(async (data) => {
-            return await data
-        }).catch((err) => {
-            return err;
-        })
-    },
-    deleteOne: async (id) => {
-        return await user.delete(`/${id}`).then(async (data) => {
-            return await data;
-        }).catch((err) => {
-            return err;
-        })
-    },
-}
-
+const tables = require('./tables');
 
 /*const db = {
     addList: async (data) => {
@@ -85,5 +43,5 @@ const db = {
     },
 }*/
 module.exports = {
-    db,user
+    tables
 };
